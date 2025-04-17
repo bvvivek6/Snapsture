@@ -51,8 +51,8 @@ const Home = () => {
         Your{" "}
         <span className="bg-green-400 text-black font-bold">
           {" "}
-          funky online photobooth{" "}
-        </span>
+          funky online photobooth
+        </span>{" "}
         funky online photobooth with {""}
         <span className="bg-yellow-400 text-black font-bold">
           filters,
@@ -63,7 +63,7 @@ const Home = () => {
       <motion.button
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8 }}
         onClick={() => navigate("/booth")}
         className="mt-10 px-8 py-4  text-white text-lg font-medium border-b-2 border-amber-400 hover:bg-yellow-300  hover:text-black  transition-all duration-300 shadow-lg"
       >

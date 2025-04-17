@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 
 const filters = ["None", "Black & White", "Sepia", "Vintage", "Pop Art"];
+const photoCountOptions = [1, 2, 3, 4];
 
 const padding = 10;
 const polaroidMarginBottom = 10;
@@ -76,7 +77,7 @@ const Booth = () => {
         setCountdown(sec);
         await new Promise((res) => setTimeout(res, 1000));
       }
-      setCountdown("Smile!!");
+
       setCountdown(null);
 
       ctx.filter = canvasFilter[selectedFilter] || "none";
@@ -127,6 +128,7 @@ const Booth = () => {
 
       collageCtx.drawImage(img, x, y, width, height);
     });
+
     //add date at the bottom
     const date = new Date().toLocaleDateString();
     collageCtx.fillStyle = "#ffffff";
@@ -137,7 +139,9 @@ const Booth = () => {
     collageCtx.textAlign = "center";
     collageCtx.fillText(date, width / 2, frameHeight * photoCount + 40);
 
-    const collageDataURL = collageCanvas.toDataURL("image/png");
+    const collageDataURL = collageCanvas.toDataURL(
+      `image_${new Date().toLocaleDateString()}/png`
+    );
     setCollageImage(collageDataURL);
     setCapturedPhotos(capturedImages);
   };
@@ -177,32 +181,58 @@ const Booth = () => {
             <canvas ref={canvasRef} className="hidden" />
 
             {collageImage && (
-              <div className="mt-4 flex flex-col items-center space-y-4">
-                <img
-                  src={collageImage}
-                  alt="Photo Booth Collage"
-                  className="shadow-lg w-full md:w-2/3"
-                />
-                <button
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = collageImage;
-                    link.download = "photo_booth_collage.png";
-                    link.click();
-                  }}
-                  className="p-3 bg-green-600 text-white rounded-full shadow-md text-lg"
-                >
-                  Download Collage
-                </button>
+              <div className="fixed inset-0 backdrop-blur-xl flex items-center justify-center z-50">
+                <div className="bg-[#151515] p-6 max-h-[90vh] rounded-lg overflow-y-auto shadow-xl w-[90%] md:w-[35%] max-w-3xl relative">
+                  <button
+                    className="absolute top-1 right-3 text-white text-4xl font-semibold"
+                    onClick={() => setCollageImage(null)}
+                  >
+                    &times;
+                  </button>
+                  <div className="flex flex-col items-center space-y-4 mt-8">
+                    <img
+                      src={collageImage}
+                      alt="Photo Booth Collage"
+                      className="shadow-lg w-full"
+                    />
+                    <button
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = collageImage;
+                        link.download = `photo_booth_${
+                          (Math.floor(Math.random() * 1000) % 100) + 1
+                        }.png`;
+                        link.click();
+                      }}
+                      className="cursor-pointer flex justify-between bg-green-600 p-3 px-4 text-white tracking-wider shadow-xl hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-mono w-full"
+                    >
+                      Add to memories😉
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="3"
+                        stroke="currentColor"
+                        class="w-5 h-5 animate-bounce"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
-          <div className="mt-6 space-y-9 w-full">
+          <div className="mt-6 space-y-5 w-full">
             <div className="flex flex-col space-y-2 items-center">
-              <label className="text-xl">Choose a Filter:</label>
+              <label className="text-xl">Choose a Filter</label>
               <select
-                className="p-3 text-white bg-[#181818] rounded-full w-2/3 text-lg"
+                className="p-3 bg-[#181818] w-full md:w-2/3 text-zinc-400 font-mono focus:ring-1 focus:ring-yellow-400 outline-none duration-300 rounded-full shadow-md focus:shadow-sm focus:shadow-yellow-400"
                 value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value)}
               >
@@ -216,21 +246,28 @@ const Booth = () => {
 
             <div className="flex flex-col space-y-2 items-center">
               <label className="text-xl">Number of Photos</label>
-              <input
-                type="number"
-                min="1"
-                max="4"
+              <select
+                className="p-3 bg-[#181818] w-full md:w-2/3 text-zinc-400 font-mono focus:ring-1 focus:ring-yellow-400 outline-none duration-300 rounded-full shadow-md focus:shadow-sm focus:shadow-yellow-400"
                 value={photoCount}
-                onChange={(e) => setPhotoCount(Number(e.target.value))}
-                className="p-3 text-center bg-[#181818] rounded-full text-white w-2/3 text-lg"
-              />
+                onChange={(e) => setPhotoCount(e.target.value)}
+              >
+                {photoCountOptions.map((count) => (
+                  <option key={count} value={count}>
+                    {count}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <button
               onClick={capturePhotos}
-              className="p-4 w-[100px] h-[100px] rounded-full md:m-3 bg-yellow-600 text-white text-4xl transition-all duration-300 shadow-lg"
+              className="relative w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-700 shadow-[inset_0_4px_8px_rgba(255,255,255,0.2),0_8px_15px_rgba(0,0,0,0.3)] 
+             transition-transform duration-200 active:scale-90 hover:brightness-110"
             >
-              📸
+              <div className="absolute inset-2 rounded-full bg-yellow-600 border-4 border-yellow-400 shadow-inner"></div>
+              <span className="absolute inset-0 flex items-center justify-center text-3xl">
+                📸
+              </span>
             </button>
           </div>
         </motion.div>
@@ -238,5 +275,4 @@ const Booth = () => {
     </>
   );
 };
-
 export default Booth;
