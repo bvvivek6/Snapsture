@@ -157,7 +157,7 @@ const Booth = () => {
           className="flex flex-col md:flex-row m-auto ] p-1 rounded-xl w-full"
         >
           <div className="flex flex-col items-center w-full">
-            <div className="w-full  aspect-video rounded-xl border border-[#333] shadow-lg relative">
+            <div className="w-full  aspect-square md:aspect-video rounded-xl border border-[#333] shadow-lg relative">
               <div className="relative w-full h-full overflow-hidden">
                 <video
                   ref={videoRef}
