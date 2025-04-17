@@ -22,7 +22,8 @@ const Booth = () => {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [capturedPhotos, setCapturedPhotos] = useState([]);
   const [collageImage, setCollageImage] = useState(null);
-  const [countdown, setCountdown] = useState(null);
+  const [countdown, setCountdown] = useState("");
+  const [capturing, setCapturing] = useState(false);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -74,11 +75,12 @@ const Booth = () => {
 
     for (let i = 0; i < photoCount; i++) {
       for (let sec = 3; sec > 0; sec--) {
-        setCountdown(sec);
+        setCountdown(`${sec}`);
         await new Promise((res) => setTimeout(res, 1000));
       }
 
-      setCountdown(null);
+      setCountdown("📸");
+      setCapturing(true); //flash
 
       ctx.filter = canvasFilter[selectedFilter] || "none";
       ctx.drawImage(videoRef.current, 0, 0, width, height);
@@ -86,6 +88,8 @@ const Booth = () => {
       capturedImages.push(dataURL);
 
       await new Promise((res) => setTimeout(res, 500));
+      setCountdown(null);
+      setCapturing(false);
     }
 
     confetti({
@@ -135,7 +139,7 @@ const Booth = () => {
     collageCtx.fillRect(0, frameHeight * photoCount, width, 20);
 
     collageCtx.fillStyle = "#000000";
-    collageCtx.font = "24px sans-serif";
+    collageCtx.font = "20px 'DM Sans', sans-serif";
     collageCtx.textAlign = "center";
     collageCtx.fillText(date, width / 2, frameHeight * photoCount + 40);
 
@@ -171,7 +175,11 @@ const Booth = () => {
                   className={`absolute w-full h-full object-cover rounded-xl ${filterClasses[selectedFilter]}`}
                 />
                 {countdown !== null && (
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold">
+                  <div
+                    className={`absolute inset-0 rounded-xl flex duration-300  ${
+                      capturing ? " bg-white text-black" : "text-white"
+                    } items-center justify-center text-6xl font-bold`}
+                  >
                     {countdown}
                   </div>
                 )}
@@ -181,7 +189,7 @@ const Booth = () => {
             <canvas ref={canvasRef} className="hidden" />
 
             {collageImage && (
-              <div className="fixed inset-0 backdrop-blur-xl flex items-center justify-center z-50">
+              <div className="fixed inset-0 bg-[#00000095] flex items-center justify-center z-50">
                 <div className="bg-[#151515] p-6 max-h-[90vh] rounded-lg overflow-y-auto shadow-xl w-[90%] md:w-[35%] max-w-3xl relative">
                   <button
                     className="absolute top-1 right-3 text-white text-4xl font-semibold"
@@ -204,7 +212,7 @@ const Booth = () => {
                         }.png`;
                         link.click();
                       }}
-                      className="cursor-pointer flex justify-between bg-green-600 p-3 px-4 text-white tracking-wider shadow-xl hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-mono w-full"
+                      className="cursor-pointer  flex rounded-sm justify-between bg-green-600 p-3 px-4 text-white tracking-tigher shadow-xl hover:bg-gray-900 hover:scale-105 duration-500 hover:ring-1 font-normal w-full"
                     >
                       Add to memories😉
                       <svg
@@ -265,9 +273,7 @@ const Booth = () => {
              transition-transform duration-200 active:scale-90 hover:brightness-110"
             >
               <div className="absolute inset-2 rounded-full bg-yellow-600 border-4 border-yellow-400 shadow-inner"></div>
-              <span className="absolute inset-0 flex items-center justify-center text-3xl">
-                📸
-              </span>
+              <span className="absolute inset-0 flex items-center justify-center text-3xl"></span>
             </button>
           </div>
         </motion.div>
