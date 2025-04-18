@@ -65,7 +65,7 @@ const Booth = () => {
     setIsCameraOn(false);
   };
 
-  const shutterSound = new Audio("../public/sounds/shutter-output.mp3"); // Sound effect
+  const shutterSound = new Audio("/public/sounds/shutter-output.mp3"); // Sound effect
 
   const capturePhotos = async () => {
     if (!videoRef.current || !canvasRef.current) return;
