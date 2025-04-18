@@ -2,7 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 
-const filters = ["None", "Black & White", "Sepia", "Vintage", "Pop Art"];
+const filters = [
+  "None",
+  "Contrast",
+  "Warm Glow",
+  "B&W Sketch",
+  "Sunset Vibe",
+  "Gothic",
+  "Dreamy",
+  "Frosted",
+];
 const photoCountOptions = [1, 2, 3, 4];
 
 const padding = 10;
@@ -10,10 +19,13 @@ const polaroidMarginBottom = 10;
 
 const filterClasses = {
   None: "",
-  "Black & White": "grayscale",
-  Sepia: "sepia",
-  Vintage: "contrast-125 brightness-90",
-  "Pop Art": "contrast-200 saturate-200",
+  Contrast: "contrast(1.5) saturate(1.2) brightness(0.9)",
+  "Warm Glow": "brightness(1.1) sepia(0.3) saturate(1.5)",
+  "B&W Sketch": "grayscale(1) contrast(1.4) brightness(1.1)",
+  "Sunset Vibe": "sepia(0.7) saturate(1.3) hue-rotate(-20deg)",
+  Gothic: "grayscale(0.9) contrast(1.8) brightness(0.8)",
+  Dreamy: "blur(1px) brightness(1.1) saturate(1.3)",
+  Frosted: "brightness(1.1) contrast(1.2) ",
 };
 
 const Booth = () => {
@@ -53,6 +65,8 @@ const Booth = () => {
     setIsCameraOn(false);
   };
 
+  const shutterSound = new Audio("../public/sounds/shutter-output.mp3"); // Sound effect
+
   const capturePhotos = async () => {
     if (!videoRef.current || !canvasRef.current) return;
 
@@ -64,11 +78,14 @@ const Booth = () => {
     canvasRef.current.height = height;
 
     const canvasFilter = {
-      None: "none",
-      "Black & White": "grayscale(1)",
-      Sepia: "sepia(1)",
-      Vintage: "contrast(1.25) brightness(0.9)",
-      "Pop Art": "contrast(2) saturate(2)",
+      None: "",
+      Contrast: "contrast(1.5) saturate(1.2) brightness(0.9)",
+      "Warm Glow": "brightness(1.1) sepia(0.3) saturate(1.5)",
+      "B&W Sketch": "grayscale(1) contrast(1.4) brightness(1.1)",
+      "Sunset Vibe": "sepia(0.7) saturate(1.3) hue-rotate(-20deg)",
+      Gothic: "grayscale(0.9) contrast(1.8) brightness(0.8)",
+      Dreamy: "blur(1px) brightness(1.1) saturate(1.3)",
+      Frosted: "brightness(1.1) contrast(1.2) ",
     };
 
     const capturedImages = [];
@@ -77,6 +94,12 @@ const Booth = () => {
       for (let sec = 3; sec > 0; sec--) {
         setCountdown(`${sec}`);
         await new Promise((res) => setTimeout(res, 1000));
+      }
+
+      try {
+        await shutterSound.play();
+      } catch (err) {
+        console.warn("Shutter sound play blocked", err);
       }
 
       setCountdown("📸");
@@ -172,7 +195,8 @@ const Booth = () => {
                   autoPlay
                   playsInline
                   muted
-                  className={`absolute w-full h-full object-cover rounded-xl ${filterClasses[selectedFilter]}`}
+                  className="absolute w-full h-full object-cover rounded-xl"
+                  style={{ filter: filterClasses[selectedFilter] || "none" }}
                 />
                 {countdown !== null && (
                   <div
