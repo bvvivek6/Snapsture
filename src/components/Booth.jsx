@@ -65,18 +65,21 @@ const Booth = () => {
     setIsCameraOn(false);
   };
 
-  const shutterSound = new Audio("/public/sounds/shutter-output.mp3"); // Sound effect
-
   const capturePhotos = async () => {
     if (!videoRef.current || !canvasRef.current) return;
 
+    // Get drawing context of canvas
     const ctx = canvasRef.current.getContext("2d");
+
+    // Get video dimensions from the live webcam feed
     const width = videoRef.current.videoWidth;
     const height = videoRef.current.videoHeight;
 
+    // Set canvas dimensions to match the video feed
     canvasRef.current.width = width;
     canvasRef.current.height = height;
 
+    // Effects
     const canvasFilter = {
       None: "",
       Contrast: "contrast(1.5) saturate(1.2) brightness(0.9)",
@@ -85,9 +88,10 @@ const Booth = () => {
       "Sunset Vibe": "sepia(0.7) saturate(1.3) hue-rotate(-20deg)",
       Gothic: "grayscale(0.9) contrast(1.8) brightness(0.8)",
       Dreamy: "blur(1px) brightness(1.1) saturate(1.3)",
-      Frosted: "brightness(1.1) contrast(1.2) ",
+      Frosted: "brightness(1.1) contrast(1.2)",
     };
 
+    // Array to Store base64 image strings captured from the canvas
     const capturedImages = [];
 
     for (let i = 0; i < photoCount; i++) {
@@ -96,86 +100,100 @@ const Booth = () => {
         await new Promise((res) => setTimeout(res, 1000));
       }
 
-      try {
-        await shutterSound.play();
-      } catch (err) {
-        console.warn("Shutter sound play blocked", err);
-      }
-
       setCountdown("📸");
-      setCapturing(true); //flash
+      setCapturing(true);
 
+      // Apply the selected filter
       ctx.filter = canvasFilter[selectedFilter] || "none";
+
+      // Draw the current video frame to the canvas with filter
       ctx.drawImage(videoRef.current, 0, 0, width, height);
+
+      // Conversion to base64 PNG and store it
       const dataURL = canvasRef.current.toDataURL("image/png");
       capturedImages.push(dataURL);
 
+      // delay
       await new Promise((res) => setTimeout(res, 500));
+
+      // Reset UI after each capture
       setCountdown(null);
       setCapturing(false);
     }
 
+    // Trigger confetti animation after all photos are captured
     confetti({
       particleCount: 120,
       spread: 200,
       origin: { y: 1 },
     });
 
+    // Convert base64 data URLs to <img> elements
     const imagePromises = capturedImages.map(
       (dataUrl) =>
         new Promise((resolve) => {
           const img = new Image();
           img.src = dataUrl;
-          img.onload = () => resolve(img);
+          img.onload = () => resolve(img); 
         })
     );
-
     const images = await Promise.all(imagePromises);
 
-    //dimensions
+    // Define padding, frame, and layout dimensions
     const frameWidth = width + padding * 2;
     const frameHeight = height + padding + polaroidMarginBottom;
     const totalHeight = images.length * (frameHeight + padding) - padding;
 
+    // Create a new canvas to hold the collage
     const collageCanvas = document.createElement("canvas");
     collageCanvas.width = frameWidth;
-    collageCanvas.height = totalHeight + 60;
+    collageCanvas.height = totalHeight + 60; // additional space for date
 
     const collageCtx = collageCanvas.getContext("2d");
 
+    // Fill entire canvas background white
     collageCtx.fillStyle = "#ffffff";
     collageCtx.fillRect(0, 0, collageCanvas.width, collageCanvas.height);
 
+    // Draw each image into the collage canvas with white background like Polaroid style
     images.forEach((img, i) => {
       const x = padding;
       const y = i * (frameHeight + padding) + padding;
 
+      // Create white "frame" background for each photo
       collageCtx.fillStyle = "#ffffff";
       collageCtx.fillRect(x, y, width, height + polaroidMarginBottom);
 
+      // Draw the image itself
       collageCtx.drawImage(img, x, y, width, height);
     });
 
-    //add date at the bottom
     const date = new Date().toLocaleDateString();
+
+    // White background strip for date
     collageCtx.fillStyle = "#ffffff";
     collageCtx.fillRect(0, frameHeight * photoCount, width, 20);
 
+    // Draw the date in black text, centered
     collageCtx.fillStyle = "#000000";
     collageCtx.font = "20px 'DM Sans', sans-serif";
     collageCtx.textAlign = "center";
     collageCtx.fillText(date, width / 2, frameHeight * photoCount + 40);
 
+    // Convert the full collage canvas to a base64 image
     const collageDataURL = collageCanvas.toDataURL(
       `image_${new Date().toLocaleDateString()}/png`
     );
+
+    // Set final collage and individual photos into state
     setCollageImage(collageDataURL);
     setCapturedPhotos(capturedImages);
   };
 
+  // Automatically start the camera when component mounts, and stop it on unmount
   useEffect(() => {
-    startCamera();
-    return () => stopCamera();
+    startCamera(); // start webcam
+    return () => stopCamera(); // cleanup webcam when component unmounts
   }, []);
 
   return (
