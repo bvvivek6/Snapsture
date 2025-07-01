@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative min-h-dvh bg-[#0E0E0E] flex flex-col tracking-tight items-center justify-center text-center px-4 overflow-hidden">
+      <div className="relative h-[100vh] bg-[#0E0E0E] flex flex-col tracking-tight items-center justify-center text-center px-4 overflow-hidden">
         {showCurtain && (
           <>
             <motion.div
@@ -45,7 +45,7 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-white md:w-[60%] w-[90%] font-mono tracking-tighter mt-10 drop-shadow-lg"
+          className="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-white md:w-[60%] w-full font-mono tracking-tighter mt-10 drop-shadow-lg"
         >
           <span className="bg-green-400 text-black font-bold">
             {" "}
@@ -70,14 +70,14 @@ const Home = () => {
         </motion.button>
       </div>
 
-      <div className="bg-[#0E0E0E] py-20 px-4">
+      <div className="bg-[#0E0E0E] py-12 px-4">
         <div className="max-w-5xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl text-white font-mono font-bold text-center mb-16 tracking-tight"
+            className="text-3xl md:text-5xl text-white font-mono font-bold text-center mb-8 tracking-tight"
           >
             Why <span className="bg-green-400 text-black px-2">Snapsture</span>?
           </motion.h2>
@@ -111,13 +111,13 @@ const Home = () => {
                 viewport={{ once: true }}
                 className=" p-8  rounded-2xl border border-[#ffffff30] hover:border-yellow-400 transition-all duration-300 group"
               >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-mono font-bold text-white mb-4 group-hover:text-yellow-400 transition-colors duration-300">
+                <h3 className="text-xl font-mono font-medium text-white mb-4 group-hover:text-yellow-400 transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400 font-mono tracking-tight leading-tight">
+                <p className="text-gray-400 font-mono  text-sm tracking-tight leading-tight">
                   {feature.description}
                 </p>
               </motion.div>
@@ -127,14 +127,14 @@ const Home = () => {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-gradient-to-b from-[#0E0E0E] to-[#1a1a1a] py-20 px-4">
+      <div className="bg-gradient-to-b from-[#0E0E0E] to-[#1a1a1a] py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl text-white font-mono font-bold text-center mb-16 tracking-tight"
+            className="text-3xl md:text-5xl text-white font-mono font-bold text-center mb-10 tracking-tight"
           >
             How It <span className="bg-amber-300 text-black px-2">Works</span>
           </motion.h2>
@@ -194,14 +194,14 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="bg-[#1a1a1a] py-20 px-4">
+      <div className="bg-[#1a1a1a] py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl text-white font-mono font-bold mb-6 tracking-tight"
+            className="text-3xl md:text-5xl text-white font-mono font-bold mb-2 tracking-tight"
           >
             Ready to Create{" "}
             <span className="bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent">
@@ -225,7 +225,7 @@ const Home = () => {
             viewport={{ once: true }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/booth")}
-            className="px-8 py-4 text-xl font-mono font-bold text-black bg-gradient-to-r from-yellow-400 via-green-400 to-yellow-400 rounded-lg hover:from-yellow-300 hover:via-green-300 hover:to-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl tracking-tight"
+            className="px-6 py-4 text-lg font-mono font-bold text-black bg-gradient-to-r from-yellow-400 via-green-400 to-yellow-400 rounded-lg hover:from-yellow-300 hover:via-green-300 hover:to-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl tracking-tight"
           >
             Let's Get Started! 🚀
           </motion.button>
