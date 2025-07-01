@@ -214,9 +214,9 @@ const Home = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-xl text-gray-300 font-mono mb-10 tracking-tight"
+            className="text-lg text-gray-300 font-mono mb-10 tracking-tight leading-tight"
           >
-            Exlore and start creating amazing photos every day
+            Explore and start creating amazing photos every day
           </motion.p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
@@ -225,7 +225,7 @@ const Home = () => {
             viewport={{ once: true }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/booth")}
-            className="px-6 py-4 text-lg font-mono font-bold text-black bg-gradient-to-r from-yellow-400 via-green-400 to-yellow-400 rounded-lg hover:from-yellow-300 hover:via-green-300 hover:to-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl tracking-tight"
+            className="px-6 py-4 text-lg mb-6 font-mono font-bold text-black bg-gradient-to-r from-yellow-400 via-green-400 to-yellow-400 rounded-lg hover:from-yellow-300 hover:via-green-300 hover:to-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl tracking-tight"
           >
             Let's Get Started! 🚀
           </motion.button>
