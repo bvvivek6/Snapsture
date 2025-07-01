@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative h-[100vh] bg-[#0E0E0E] flex flex-col tracking-tight items-center justify-center text-center px-4 overflow-hidden">
+      <div className="relative h-[90vh] bg-[#0E0E0E] flex flex-col tracking-tight items-center justify-center text-center px-4 overflow-hidden">
         {showCurtain && (
           <>
             <motion.div
