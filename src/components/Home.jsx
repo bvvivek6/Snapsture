@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Typewriter } from "react-simple-typewriter";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="relative min-h-dvh bg-[#0E0E0E] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <div className="relative min-h-dvh bg-[#0E0E0E] flex flex-col tracking-tight items-center justify-center text-center px-4 overflow-hidden">
         {showCurtain && (
           <>
             <motion.div
@@ -38,15 +37,15 @@ const Home = () => {
           initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
           animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl text-white font-mono font-bold drop-shadow-lg"
+          className="text-4xl  md:text-6xl  text-white tracking-tight font-mono font-bold drop-shadow-lg"
         >
-          Snapster📸
+          Snapsture📸
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-xl sm:text-xl md:text-4xl lg:text-4xl xl:text-4xl text-white w-[60%] font-mono tracking-tighter mt-10 drop-shadow-lg"
+          className="text-xl sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl text-white w-[60%] font-mono tracking-tighter mt-10 drop-shadow-lg"
         >
           <span className="bg-green-400 text-black font-bold">
             {" "}
