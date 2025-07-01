@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <!-- Gradient for the camera body -->
+    <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+    
+    <!-- Gradient for the lens -->
+    <linearGradient id="lensGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f093fb"/>
+      <stop offset="50%" stop-color="#f5576c"/>
+      <stop offset="100%" stop-color="#4facfe"/>
+    </linearGradient>
+    
+    <!-- Gradient for the flash -->
+    <linearGradient id="flashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffecd2"/>
+      <stop offset="100%" stop-color="#fcb69f"/>
+    </linearGradient>
+    
+    <!-- Drop shadow filter -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="4" result="offset"/>
+      <feFlood flood-color="#000000" flood-opacity="0.2"/>
+      <feComposite in2="offset" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#cameraGradient)" filter="url(#dropShadow)"/>
+  
+  <!-- Camera body -->
+  <rect x="25" y="40" width="70" height="45" rx="8" ry="8" fill="#2c3e50" opacity="0.8"/>
+  
+  <!-- Camera lens outer ring -->
+  <circle cx="60" cy="62" r="18" fill="#34495e"/>
+  
+  <!-- Camera lens -->
+  <circle cx="60" cy="62" r="15" fill="url(#lensGradient)"/>
+  
+  <!-- Lens inner circle -->
+  <circle cx="60" cy="62" r="10" fill="#2c3e50" opacity="0.7"/>
+  
+  <!-- Lens center -->
+  <circle cx="60" cy="62" r="6" fill="#000" opacity="0.8"/>
+  
+  <!-- Lens reflection -->
+  <circle cx="57" cy="59" r="3" fill="#fff" opacity="0.4"/>
+  
+  <!-- Flash -->
+  <rect x="75" y="45" width="8" height="6" rx="2" ry="2" fill="url(#flashGradient)"/>
+  
+  <!-- Viewfinder -->
+  <rect x="35" y="45" width="8" height="6" rx="1" ry="1" fill="#34495e"/>
+  
+  <!-- Camera top details -->
+  <rect x="45" y="35" width="30" height="8" rx="4" ry="4" fill="#34495e"/>
+  
+  <!-- Shutter button -->
+  <circle cx="50" cy="39" r="3" fill="#e74c3c"/>
+  
+  <!-- Mode dial -->
+  <circle cx="70" cy="39" r="3" fill="#95a5a6"/>
+  
+  <!-- Sparkle effects -->
+  <g fill="#fff" opacity="0.6">
+    <circle cx="25" cy="25" r="1.5"/>
+    <circle cx="95" cy="30" r="1"/>
+    <circle cx="90" cy="90" r="1.5"/>
+    <circle cx="30" cy="95" r="1"/>
+    <polygon points="15,45 17,47 15,49 13,47" fill="#fff" opacity="0.4"/>
+    <polygon points="105,75 107,77 105,79 103,77" fill="#fff" opacity="0.4"/>
+  </g>
+</svg>
