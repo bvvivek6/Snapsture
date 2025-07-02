@@ -94,13 +94,13 @@ const Home = () => {
                 icon: "⏰",
                 title: "Smart Countdown",
                 description:
-                  "Perfect timing with customizable countdown timers for group photos and selfies",
+                  "Perfect timing with countdown timers for group photos and selfies",
               },
               {
                 icon: "🎭",
                 title: "Collage Magic",
                 description:
-                  "Create beautiful collages with multiple layouts and artistic arrangements",
+                  "Create beautiful collages with polaroid-like artistic arrangements",
               },
             ].map((feature, index) => (
               <motion.div
