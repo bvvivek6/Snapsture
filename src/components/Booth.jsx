@@ -106,8 +106,16 @@ const Booth = () => {
       // Apply the selected filter
       ctx.filter = canvasFilter[selectedFilter] || "none";
 
-      // Draw the current video frame to the canvas with filter
+      // Save the current state and flip horizontally to correct the mirrored video
+      ctx.save();
+      ctx.scale(-1, 1);
+      ctx.translate(-width, 0);
+
+      // Draw the current video frame to the canvas with filter and flip correction
       ctx.drawImage(videoRef.current, 0, 0, width, height);
+
+      // Restore the context state
+      ctx.restore();
 
       // Conversion to base64 PNG and store it
       const dataURL = canvasRef.current.toDataURL("image/png");
@@ -213,7 +221,10 @@ const Booth = () => {
                 playsInline
                 muted
                 className="absolute w-full h-full object-cover rounded-xl"
-                style={{ filter: filterClasses[selectedFilter] || "none" }}
+                style={{
+                  filter: filterClasses[selectedFilter] || "none",
+                  transform: "scaleX(-1)",
+                }}
               />
               {countdown !== null && (
                 <div
